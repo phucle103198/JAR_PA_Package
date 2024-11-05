@@ -17,6 +17,8 @@ library(carData)
 library(fmsb)
 library(stringr)
 
+
+
 JAR_Phuc <- function(data, col.l = NA, percent_consum = 20, meandrop_line=1){
     count_unique <- function(column) {
         df <- data.frame(value = column) %>%
@@ -44,7 +46,7 @@ JAR_Phuc <- function(data, col.l = NA, percent_consum = 20, meandrop_line=1){
     colnames_d <- colnames(df)
     df1 <- {}
     for (i in colnames_d) {
-        res.aov <- aov(as.formula(paste(name_col_liking, " ~ ", paste(i))), data = data)
+        res.aov <- aov(as.formula(paste(paste(name_col_liking), " ~ ", paste(i))), data = data)
         a <- as.data.frame(tukey_hsd(res.aov))
         df1 <- rbind(df1,a)
     }
