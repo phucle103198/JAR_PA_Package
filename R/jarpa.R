@@ -17,18 +17,20 @@ library(carData)
 library(fmsb)
 library(stringr)
 
-
-
 JAR_Phuc <- function(data, col.l = NA, percent_consum = 20, meandrop_line=1){
+    name_col_liking <- colnames(data)[col.l]
+    df <- data[,-col.l]
+    for (j in c(1:ncol(df))) df[,j] <- as.factor(df[,j])
+    for (j in c(1:ncol(df))) levels(df[,j]) <- c("ne","ne","JAR","tm","tm")
+    df2 <- cbind(df,data[,col.l])
+    colnames(df2)[ncol(df2)] <- name_col_liking
+
     count_unique <- function(column) {
         df <- data.frame(value = column) %>%
             count(value) %>%
             mutate(percentage = n / sum(n) * 100)
         return(df)
     }
-    name_col_liking <- colnames(data)[col.l]
-
-    df <- data[,-col.l]
     df_percent <- map_dfr(names(df),
                           ~ count_unique(df[[.x]]) %>%
                               mutate(column = .x),
@@ -46,7 +48,7 @@ JAR_Phuc <- function(data, col.l = NA, percent_consum = 20, meandrop_line=1){
     colnames_d <- colnames(df)
     df1 <- {}
     for (i in colnames_d) {
-        res.aov <- aov(as.formula(paste(paste(name_col_liking), " ~ ", paste(i))), data = data)
+        res.aov <- aov(as.formula(paste(paste(name_col_liking), " ~ ", paste(i))), data = df2)
         a <- as.data.frame(tukey_hsd(res.aov))
         df1 <- rbind(df1,a)
     }
