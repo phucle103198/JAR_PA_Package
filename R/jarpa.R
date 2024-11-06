@@ -1,23 +1,30 @@
-library(FactoMineR)
-library(SensoMineR)
-library(dplyr)
-library(tidyr)
-library(readxl)
-library(knitr)
-library(FactoMineR)
-library(ggplot2)
-library(MASS)
-library(corrplot)
-library(factoextra)
-library(ExPosition)
-library(rstatix)
-library(ggpubr)
-library(car)
-library(carData)
-library(fmsb)
-library(stringr)
-
 JAR_Phuc <- function(data, col.l = NA, percent_consum = 20, meandrop_line=1){
+
+    if(!require(purrr)){
+        install.packages("purrr")
+        library(purrr)
+    }
+    if(!require(tidyr)){
+        install.packages("tidyr")
+        library(tidyr)
+    }
+    if(!require(dplyr)){
+        install.packages("dplyr")
+        library(dplyr)
+    }
+    if(!require(ggplot2)){
+        install.packages("ggplot2")
+        library(ggplot2)
+    }
+    if(!require(rstatix)){
+        install.packages("rstatix")
+        library(rstatix)
+    }
+    if(!require(stringr)){
+        install.packages("stringr")
+        library(stringr)
+    }
+
     name_col_liking <- colnames(data)[col.l]
     df <- data[,-col.l]
     for (j in c(1:ncol(df))) df[,j] <- as.factor(df[,j])
